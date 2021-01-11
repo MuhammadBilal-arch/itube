@@ -1,0 +1,50 @@
+.logo {
+    height: 32px;
+    margin: 25px;
+    font-size: 20px;
+    /* background: rgba(236, 16, 16, 0.3); */
+  }
+  
+  .sitelayout .sitelayoutbackground {
+    background: #fff;
+  }
+
+
+  .MainOn{
+    content: '';
+    position: relative;
+    left: 0px;
+    top: 0;
+    margin-left: 200px;
+  }
+
+  .MainOFF{
+    content: '';
+    position: relative;
+    left: 0px;
+    top: 0;
+    margin-left: 60px;
+    transition: 0.1s;
+  }
+
+
+  .Header{
+    content: '';
+    /* position: absolute; */
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    display:flex;
+    align-items:center;
+    background: #fff;
+    border-bottom:1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .sitelayoutbackground{
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top:67px;
+    overflow: initial;
+  }
