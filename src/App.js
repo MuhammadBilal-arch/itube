@@ -15,6 +15,7 @@ function App() {
     ThemeBG: "rgba(0,0,0,0.8)",
     ThemeTxt: "#1890ff",
     ThemeContent: "rgba(0,0,0,0.8)",
+    ThemeNav:"rgb(50,50,50)"
   });
 
   const LoggedIn = useCallback(() => {
@@ -31,11 +32,13 @@ function App() {
           ThemeBG: "rgba(0,0,0,0.1)",
           ThemeTxt: "black",
           ThemeContent: "rgba(0,0,0,0.1)",
+          ThemeNav: "rgb(240,240,240)"
         })
       : setThemeColor({
           ThemeBG: "rgba(0,0,0,0.8)",
           ThemeTxt: "#1890ff",
           ThemeContent: "rgba(0,0,0,0.8)",
+          ThemeNav: "rgb(50,50,50)"
         });
   };
 

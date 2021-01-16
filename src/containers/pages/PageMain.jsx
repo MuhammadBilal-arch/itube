@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Carousel, Divider} from "antd";
+import { Carousel, Divider } from "antd";
 import axios from "axios";
-
+import { SpinLoading } from "../../components/Spinner/SpinLoading";
+import { Iframe } from "../../components/Videos/Iframe";
 const PageMain = () => {
   const [videolist, setvideolist] = useState([]);
-  console.log("Page Main")
+  // console.log("Page Main Component");
   useEffect(() => {
     let isActive = true;
     axios.get("http://localhost:5000/videos").then((vid) => {
@@ -15,11 +16,10 @@ const PageMain = () => {
 
     return () => {
       isActive = false;
-      console.log("unmount main Page");
+      // console.log("unmount main Page");
     };
   }, []);
 
-  // console.log(videolist);
   return (
     <div
       style={{
@@ -33,30 +33,20 @@ const PageMain = () => {
     >
       <div style={{ textAlign: "center", fontSize: "54px" }}>iTube</div>
       <Divider style={{ padding: "0px 0px 15px 0px" }} />
-      <div style={{ width: "480px" }}>
-        <Carousel autoplay>
-          {videolist.length !== 0 ? (
-            videolist.map((item, index) => {
+
+      <SpinLoading>
+        <div style={{ width: "480px", height: "300px" }}>
+          <Carousel autoplay>
+            {videolist.map((item, index) => {
               return (
                 <div key={index}>
-                  <iframe
-                    title={index}
-                    width="480"
-                    height="300"
-                    showinfo="0"
-                    controls="0"
-                    src={item.videoLink}
-                    frameBorder="0"
-                    rel="0"
-                  ></iframe>
+                  <Iframe iwidth = "100%" iheight="300" ilink={item.videoLink}/>
                 </div>
               );
-            })
-          ) : (
-            <h1>Data is not available at moment.</h1>
-          )}
-        </Carousel>
-      </div>
+            })}
+          </Carousel>
+        </div>
+      </SpinLoading>
     </div>
   );
 };

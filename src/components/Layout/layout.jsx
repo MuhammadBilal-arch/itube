@@ -50,12 +50,12 @@ const SiderDemo = (props) => {
 
   const Search = (value) => console.log(value);
 
-  const { ThemeBG, ThemeTxt, ThemeContent } = ThemeContext.ThemeColor;
+  const { ThemeBG, ThemeTxt, ThemeContent , ThemeNav } = ThemeContext.ThemeColor;
   return (
     <Layout>
       <Header
         className={classes.Header}
-        style={{ backgroundColor: "transparent", color: ThemeTxt }}
+        style={{ backgroundColor: ThemeNav, color: ThemeTxt , overflow:"hidden" }}
       >
         <div className={classes.logo}>
           <YoutubeFilled />
@@ -66,7 +66,12 @@ const SiderDemo = (props) => {
           enterButton
           style={{ width: 600 }}
         />
-        <Switch onChange={ThemeContext.ThemeChange} checkedChildren="Dark" unCheckedChildren="Light" defaultChecked />
+        <Switch
+          onChange={ThemeContext.ThemeChange}
+          checkedChildren="Dark"
+          unCheckedChildren="Light"
+          defaultChecked
+        />
         {AuthContext.IsLoggedIn ? (
           <Space size="large">
             <div>Hi,&nbsp;Muhammad</div>
@@ -117,7 +122,7 @@ const SiderDemo = (props) => {
         collapsedWidth="60"
       >
         <Menu
-          defaultSelectedKeys={["2"]}
+          defaultSelectedKeys={["1"]}
           mode="inline"
           style={{
             marginTop: 64,

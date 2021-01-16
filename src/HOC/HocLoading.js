@@ -1,3 +1,3 @@
-const HOCLoading = (WrappedComponent , props) => {
-    return <WrappedComponent {...props}/>
+export const HOCLoading = (WrappedComponent) => {
+    return <WrappedComponent/>
 }

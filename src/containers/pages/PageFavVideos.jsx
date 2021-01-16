@@ -1,7 +1,10 @@
-import React, { useEffect , useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { Result, Button, Row, Col, Divider } from "antd";
+import { Result, Button, Row, Col } from "antd";
+import { UseDivider } from "../../components/Divider/Divider";
+import { SpinLoading } from "../../components/Spinner/SpinLoading";
+import { Iframe } from "../../components/Videos/Iframe";
 
 const PageFavVideos = () => {
   let history = useHistory();
@@ -10,55 +13,47 @@ const PageFavVideos = () => {
   };
   const [videolist, setvideolist] = useState([]);
 
-  console.log("Page Fav Videos")
+  // console.log("Page Fav Videos");
   useEffect(() => {
     let isActive = true;
     axios.get("http://localhost:5000/Playlist").then((vid) => {
-      if(isActive)
-      {
+      if (isActive) {
         setvideolist(vid.data);
       }
     });
     return () => {
-        isActive = false;
-    }
+      isActive = false;
+    };
   }, []);
 
   return (
     <>
       {videolist.length !== 0 ? (
         <div style={{ padding: "20px 20px" }}>
-          <Divider orientation="left" style={{ padding: "0px 0px 15px 0px" ,border: "white"}}>
-            Playlist videos
-          </Divider>
-          <Row justify='space-between'>
-            {
-                videolist.map((item,index) => {
-                    return <Col key={index}
-                    className="gutter-row"
-                    style={{ marginBottom: "30px" }}
-                    xs={{ span: 20 }}
-                    sm={{ span: 10 }}
-                    md={{ span: 5 }}
-                    lg={{ span: 5 }}
-                    >
-                    <iframe
-                      title={index}
-                      width="100%"
-                      height="180"
-                      showinfo="0"
-                      controls="0"
-                      src={item.videoLink}
-                      frameBorder="0"
-                      rel="0"
-                    ></iframe>
-                    </Col>
-                })
-            }
+          <UseDivider text="Playlist videos" />
+          <Row justify="space-between">
+            {videolist.map((item, index) => {
+              return (
+                <Col
+                  key={index}
+                  className="gutter-row"
+                  style={{ marginBottom: "30px" }}
+                  xs={{ span: 20 }}
+                  sm={{ span: 10 }}
+                  md={{ span: 10 }}
+                  lg={{ span: 5 }}
+                >
+                  <SpinLoading>
+                  <Iframe iwidth = "100%" iheight="180" ilink={item.videoLink}/>
+                  </SpinLoading>
+                </Col>
+              );
+            })}
           </Row>
         </div>
       ) : (
         <Result
+          style={{ backgroundColor: "white" }}
           status="info"
           title="Favourite Video list"
           subTitle="There is item in the list at moment."
