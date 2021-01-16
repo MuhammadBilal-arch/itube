@@ -1,82 +1,162 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import classes from "./layout.module.css";
-import { Layout, Menu, Input } from "antd";
+import { Layout, Menu, Input, Button, Switch, Space } from "antd";
 import {
   HomeFilled,
   VideoCameraFilled,
   PlaySquareFilled,
-  YoutubeFilled
+  YoutubeFilled,
 } from "@ant-design/icons";
-import Search from "antd/lib/input/Search";
+import { Auth } from "../../context/authcontext";
+import { Theme } from "../../context/themecontext";
+import { DrawerFormForSignUp } from "../../containers/auth/Signup";
+import { DrawerFormForSignIn } from "../../containers/auth/Login";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-class SiderDemo extends React.Component {
-  state = {
-    collapsed: false,
+const SiderDemo = (props) => {
+  const AuthContext = useContext(Auth);
+  const ThemeContext = useContext(Theme);
+
+  const [Signup, setSignup] = useState(false);
+  const [SignIn, setSignIn] = useState(false);
+  const [collapsed, setcollapsed] = useState(false);
+
+  const showDrawerForSignup = () => {
+    setSignup(true);
   };
 
-  onCollapse = (collapsed) => {
-    console.log(collapsed);
-    this.setState({ collapsed });
+  const onCloseDrawerForSignup = () => {
+    setSignup(false);
   };
 
-  Search = (value) => console.log(value);
+  const showDrawerForSignIn = () => {
+    setSignIn(true);
+  };
 
-  render() {
-    const { collapsed } = this.state;
-    return (
-      <Layout style={{ minHeight: "100vh" }}>
-        <Sider
+  const onCloseDrawerForSignIn = () => {
+    setSignIn(false);
+  };
+
+  const onCollapse = (collapsed) => {
+    setcollapsed(collapsed);
+  };
+
+  const OnSignOut = () => {
+    setSignup(false);
+    AuthContext.Logout();
+  };
+
+  const Search = (value) => console.log(value);
+
+  const { ThemeBG, ThemeTxt, ThemeContent } = ThemeContext.ThemeColor;
+  return (
+    <Layout>
+      <Header
+        className={classes.Header}
+        style={{ backgroundColor: "transparent", color: ThemeTxt }}
+      >
+        <div className={classes.logo}>
+          <YoutubeFilled />
+        </div>
+        <Input.Search
+          placeholder="input search text"
+          onSearch={Search}
+          enterButton
+          style={{ width: 600 }}
+        />
+        <Switch onChange={ThemeContext.ThemeChange} checkedChildren="Dark" unCheckedChildren="Light" defaultChecked />
+        {AuthContext.IsLoggedIn ? (
+          <Space size="large">
+            <div>Hi,&nbsp;Muhammad</div>
+            <Button type="primary" onClick={OnSignOut}>
+              Sign Out
+            </Button>
+          </Space>
+        ) : (
+          <Space size="middle">
+            <Button type="primary" onClick={showDrawerForSignup}>
+              Sign Up
+            </Button>
+            <Button type="primary" onClick={showDrawerForSignIn}>
+              Sign In
+            </Button>
+          </Space>
+        )}
+        {Signup && (
+          <DrawerFormForSignUp
+            showDrawer={showDrawerForSignup}
+            onClose={onCloseDrawerForSignup}
+            visible={Signup}
+          />
+        )}
+        {SignIn && (
+          <DrawerFormForSignIn
+            showDrawer={showDrawerForSignIn}
+            onClose={onCloseDrawerForSignIn}
+            visible={SignIn}
+          />
+        )}
+      </Header>
+      <Sider
+        style={{
+          overflow: "auto",
+          height: "100vh",
+          position: "fixed",
+          top: "0px",
+          left: 0,
+          backgroundColor: ThemeBG,
+          color: ThemeTxt,
+          borderRight: "2px solid rgba(0,0,0,0.1)",
+        }}
+        collapsible
+        collapsed={collapsed}
+        onCollapse={onCollapse}
+        breakpoint="lg"
+        collapsedWidth="60"
+      >
+        <Menu
+          defaultSelectedKeys={["2"]}
+          mode="inline"
           style={{
-            overflow: "auto",
-            height: "100vh",
-            position: "fixed",
-            left: 0,
-          }}
-          theme="light"
-          collapsible
-          collapsed={collapsed}
-          onCollapse={this.onCollapse}
-          breakpoint="md"
-          collapsedWidth="60"
-          onBreakpoint={(broken) => {
-            console.log(broken);
+            marginTop: 64,
+            padding: "0",
+            backgroundColor: "transparent",
+            color: ThemeTxt,
+            borderRight: "transparent",
           }}
         >
-          <div className={classes.logo}><YoutubeFilled /></div>
-          <Menu theme="light" defaultSelectedKeys={["2"]} mode="inline" style={{padding:'0'}}>
-            <Menu.Item key="1" icon={<HomeFilled />}>
-              <Link to="/">Home</Link>
-            </Menu.Item>
-            <Menu.Item key="2" icon={<VideoCameraFilled />}>
-              <Link to="/videos">Videos</Link>
-            </Menu.Item>
-            <Menu.Item key="3" icon={<PlaySquareFilled />}>
-              <Link to="/videos/flist">Favourities videos</Link>
-            </Menu.Item>
-          </Menu>
-        </Sider>
-        <Layout   className={collapsed ? classes.MainOFF : classes.MainOn}>
-          <Header className={classes.Header}>
-            <Input.Search
-              placeholder="input search text"
-              onSearch={Search}
-              enterButton
-              style={{ width: "600px" }}
-            />
-          </Header>
-          <Content className={classes.sitelayoutbackground}>
-            {this.props.children}
-          </Content>
+          <Menu.Item key="1" icon={<HomeFilled />}>
+            <Link to="/" style={{ color: ThemeTxt }}>
+              Home
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="2" icon={<VideoCameraFilled />}>
+            <Link to="/videos" style={{ color: ThemeTxt }}>
+              Videos
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<PlaySquareFilled />}>
+            <Link to="/videos/flist" style={{ color: ThemeTxt }}>
+              Favourities videos
+            </Link>
+          </Menu.Item>
+        </Menu>
+      </Sider>
+      <Layout className={collapsed ? classes.MainOFF : classes.MainOn}>
+        <Content
+          className={classes.sitelayoutbackground}
+          style={{ backgroundColor: ThemeContent, color: ThemeTxt }}
+        >
+          {props.children}
           <Footer style={{ textAlign: "center" }}>
             Ant Design ©2018 Created by Ant UED
           </Footer>
-        </Layout>
+        </Content>
       </Layout>
-    );
-  }
-}
+    </Layout>
+  );
+};
 
 export default SiderDemo;

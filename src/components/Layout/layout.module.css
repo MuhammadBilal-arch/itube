@@ -2,19 +2,17 @@
     height: 32px;
     margin: 25px;
     font-size: 20px;
-    /* background: rgba(236, 16, 16, 0.3); */
+    display:flex;
+    align-items:center;
+    cursor: pointer;
   }
   
-  .sitelayout .sitelayoutbackground {
-    background: #fff;
-  }
-
-
   .MainOn{
     content: '';
     position: relative;
     left: 0px;
     top: 0;
+    width: 100%;
     margin-left: 200px;
   }
 
@@ -23,12 +21,14 @@
     position: relative;
     left: 0px;
     top: 0;
+    width: 100%;
     margin-left: 60px;
-    transition: 0.1s;
+    /* transition: 0.1s; */
   }
 
 
   .Header{
+    /* padding: 0; */
     content: '';
     /* position: absolute; */
     position: fixed;
@@ -36,7 +36,7 @@
     z-index: 100;
     display:flex;
     align-items:center;
-    background: #fff;
+    justify-content: space-between;
     border-bottom:1px solid rgba(0, 0, 0, 0.1);
   }
 
@@ -44,7 +44,8 @@
     content: '';
     position: absolute;
     left: 0;
-    width: 100%;
-    top:67px;
-    overflow: initial;
+    min-width: 100%;
+    top:0px;
+    padding: 60px 0 0 0;
+    /* overflow: initial; */
   }
