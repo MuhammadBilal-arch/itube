@@ -3,7 +3,7 @@ import React from 'react'
 export const Iframe = ({iwidth , iheight , ilink}) => {
     return (
         <iframe
-        title=""
+        title={iheight}
         width={iwidth}
         height={iheight}
         src= {ilink}

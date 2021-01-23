@@ -1,26 +1,25 @@
-import { useContext } from 'react'
-import { Drawer, Form, Button, Input, Select, Checkbox } from "antd";
+import { useContext } from "react";
+import { Drawer, Form, Button, Input, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { Auth } from '../../context/authcontext'
-const { Option } = Select;
+import { Auth } from "../../context/authcontext";
+import { connect } from "react-redux";
+import { getUser } from "../../Redux/Actions/UserActions/UserAction";
 
-export const DrawerFormForSignIn = (props) => {
+const DrawerFormForSignIn = (props) => {
+  const AuthContext = useContext(Auth);
 
-    const AuthContext = useContext(Auth)
-    const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  const OnLoggedIn = (value) => {
+
+    props.getUser(value.username);
+    return props.user.Password === value.password &&
+        (AuthContext.LoggedIn(), props.onClose())
+      
   };
-
-  const OnLoggedIn = () => {
-    console.log(AuthContext.LoggedIn())
-    AuthContext.LoggedIn();
-    props.onClose();  
-}
 
   return (
     <>
       <Drawer
-        title="SignIn"
+        title="Sign In"
         width={420}
         onClose={props.onClose}
         visible={props.visible}
@@ -32,8 +31,9 @@ export const DrawerFormForSignIn = (props) => {
           initialValues={{
             remember: true,
           }}
-          onFinish={onFinish}
+          onFinish={OnLoggedIn}
         >
+
           <Form.Item
             name="username"
             rules={[
@@ -53,7 +53,9 @@ export const DrawerFormForSignIn = (props) => {
             rules={[
               {
                 required: true,
-                message: "Please input your Password!",
+                message: "password' must be between 6 and 10 characters!",
+                max: 10,
+                min: 6,
               },
             ]}
           >
@@ -69,7 +71,7 @@ export const DrawerFormForSignIn = (props) => {
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
-            <a className="login-form-forgot" href="">
+            <a className="login-form-forgot" href="Anywhere">
               Forgot password
             </a>
           </Form.Item>
@@ -78,7 +80,7 @@ export const DrawerFormForSignIn = (props) => {
             <Button onClick={props.onClose} style={{ marginRight: 8 }}>
               Cancel
             </Button>
-            <Button onClick={OnLoggedIn} type="primary">
+            <Button type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>
@@ -87,3 +89,18 @@ export const DrawerFormForSignIn = (props) => {
     </>
   );
 };
+
+const mapStateToProps = (state) => ({
+  loading: state.UserReducer.loading,
+  user: state.UserReducer.user,
+  error: state.UserReducer.error,
+});
+
+const mapDispatchToProps = {
+  getUser,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DrawerFormForSignIn);

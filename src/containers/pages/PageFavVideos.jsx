@@ -13,7 +13,6 @@ const PageFavVideos = () => {
   };
   const [videolist, setvideolist] = useState([]);
 
-  // console.log("Page Fav Videos");
   useEffect(() => {
     let isActive = true;
     axios.get("http://localhost:5000/Playlist").then((vid) => {
@@ -31,7 +30,7 @@ const PageFavVideos = () => {
       {videolist.length !== 0 ? (
         <div style={{ padding: "20px 20px" }}>
           <UseDivider text="Playlist videos" />
-          <Row justify="space-between">
+          <Row justify="space-around">
             {videolist.map((item, index) => {
               return (
                 <Col
@@ -44,7 +43,11 @@ const PageFavVideos = () => {
                   lg={{ span: 5 }}
                 >
                   <SpinLoading>
-                  <Iframe iwidth = "100%" iheight="180" ilink={item.videoLink}/>
+                    <Iframe
+                      iwidth="100%"
+                      iheight="180"
+                      ilink={item.videoLink}
+                    />
                   </SpinLoading>
                 </Col>
               );

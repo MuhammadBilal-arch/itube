@@ -8,15 +8,16 @@ import PageFavVideos from "./containers/pages/PageFavVideos";
 import Layout from "./components/Layout/layout";
 import { Auth } from "./context/authcontext";
 import { Theme } from "./context/themecontext";
-
+import { Provider  } from "react-redux";
+import { store } from "./Redux/store";
 function App() {
   const [IsLoggedIn, setIsLoggedIn] = useState(false);
   const [ThemeColor, setThemeColor] = useState({
     ThemeBG: "rgba(0,0,0,0.8)",
     ThemeTxt: "#1890ff",
     ThemeContent: "rgba(0,0,0,0.8)",
-    ThemeNav:"rgb(50,50,50)"
-  });
+    ThemeNav: "rgb(50,50,50)",
+  });  
 
   const LoggedIn = useCallback(() => {
     setIsLoggedIn(true);
@@ -32,17 +33,18 @@ function App() {
           ThemeBG: "rgba(0,0,0,0.1)",
           ThemeTxt: "black",
           ThemeContent: "rgba(0,0,0,0.1)",
-          ThemeNav: "rgb(240,240,240)"
+          ThemeNav: "rgb(240,240,240)",
         })
       : setThemeColor({
           ThemeBG: "rgba(0,0,0,0.8)",
           ThemeTxt: "#1890ff",
           ThemeContent: "rgba(0,0,0,0.8)",
-          ThemeNav: "rgb(50,50,50)"
+          ThemeNav: "rgb(50,50,50)",
         });
   };
 
   return (
+    <Provider store={store}>
     <Auth.Provider
       value={{ IsLoggedIn: IsLoggedIn, LoggedIn: LoggedIn, Logout: Logout }}
     >
@@ -64,6 +66,7 @@ function App() {
         </BrowserRouter>
       </Theme.Provider>
     </Auth.Provider>
+    </Provider>
   );
 }
 
